@@ -1,6 +1,5 @@
 from ..base import ShopifyResource
 
-
 class ApplicationCharge(ShopifyResource):
 
     def activate(self):

@@ -1,13 +1,11 @@
 from ..base import ShopifyResource
 from shopify import mixins
 from collect import Collect
-import product
-
 
 class CustomCollection(ShopifyResource, mixins.Metafields, mixins.Events):
 
     def products(self):
-        return product.Product.find(collection_id=self.id)
+        return Product.find(collection_id=self.id)
 
     def add_product(self, product):
         return Collect.create({'collection_id': self.id, 'product_id': product.id})

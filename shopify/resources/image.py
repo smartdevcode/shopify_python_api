@@ -2,7 +2,6 @@ from ..base import ShopifyResource
 import base64
 import re
 
-
 class Image(ShopifyResource):
     _prefix_source = "/admin/products/$product_id/"
 
