@@ -12,6 +12,9 @@ except ImportError:
 import re
 from contextlib import contextmanager
 
+class ValidationException(Exception):
+    pass
+
 class Session(object):
     api_key = None
     secret = None
@@ -27,7 +30,7 @@ class Session(object):
     def temp(cls, domain, token):
         import shopify
         original_domain = shopify.ShopifyResource.get_site()
-        original_token = shopify.ShopifyResource.headers['X-Shopify-Access-Token']
+        original_token = shopify.ShopifyResource.get_headers().get('X-Shopify-Access-Token')
         original_session = shopify.Session(original_domain, original_token)
 
         session = Session(domain, token)
@@ -50,7 +53,7 @@ class Session(object):
             return self.token
 
         if not self.validate_params(params):
-            raise Exception('Invalid Signature: Possibly malicious login')
+            raise ValidationException('Invalid Signature: Possibly malicious login')
 
         code = params['code']
 
@@ -75,7 +78,7 @@ class Session(object):
 
     @staticmethod
     def __prepare_url(url):
-        if url.strip() == "":
+        if not url or (url.strip() == ""):
             return None
         url = re.sub("https?://", "", url)
         url = re.sub("/.*", "", url)
