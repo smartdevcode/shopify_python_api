@@ -1,6 +1,5 @@
 import time
 import hmac
-import json
 from hashlib import sha256
 try:
     import simplejson as json
@@ -44,9 +43,9 @@ class Session(object):
         self.token = token
         return
 
-    def create_permission_url(self, scope, redirect_uri, state=None):
-        query_params = dict(client_id=self.api_key, scope=",".join(scope), redirect_uri=redirect_uri)
-        if state: query_params['state'] = state
+    def create_permission_url(self, scope, redirect_uri=None):
+        query_params = dict(client_id=self.api_key, scope=",".join(scope))
+        if redirect_uri: query_params['redirect_uri'] = redirect_uri
         return "%s/oauth/authorize?%s" % (self.site, urllib.parse.urlencode(query_params))
 
     def request_token(self, params):
@@ -100,7 +99,7 @@ class Session(object):
         # Avoid replay attacks by making sure the request
         # isn't more than a day old.
         one_day = 24 * 60 * 60
-        if int(params.get('timestamp', 0)) < time.time() - one_day:
+        if int(params['timestamp']) < time.time() - one_day:
             return False
 
         return cls.validate_hmac(params)
@@ -137,17 +136,10 @@ class Session(object):
         """
         def encoded_pairs(params):
             for k, v in six.iteritems(params):
-                if k == 'hmac':
-                    continue
-
-                if k.endswith('[]'):
-                    #foo[]=1&foo[]=2 has to be transformed as foo=["1", "2"] note the whitespace after comma
-                    k = k.rstrip('[]')
-                    v = json.dumps(map(str, v))
-
-                # escape delimiters to avoid tampering
-                k = str(k).replace("%", "%25").replace("=", "%3D")
-                v = str(v).replace("%", "%25")
-                yield '{0}={1}'.format(k, v).replace("&", "%26")
+                if k != 'hmac':
+                    # escape delimiters to avoid tampering
+                    k = str(k).replace("%", "%25").replace("=", "%3D")
+                    v = str(v).replace("%", "%25")
+                    yield '{0}={1}'.format(k, v).replace("&", "%26")
 
         return "&".join(sorted(encoded_pairs(params)))
