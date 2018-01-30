@@ -47,7 +47,6 @@ from .order_risk import OrderRisk
 from .policy import Policy
 from .smart_collection import SmartCollection
 from .gift_card import GiftCard
-from .discount import Discount
 from .shipping_zone import ShippingZone
 from .location import Location
 from .draft_order import DraftOrder
@@ -58,7 +57,5 @@ from .discount_code import DiscountCode
 from .marketing_event import MarketingEvent
 from .collection_listing import CollectionListing
 from .product_listing import ProductListing
-from .resource_feedback import ResourceFeedback
-from .storefront_access_token import StorefrontAccessToken
 
 from ..base import ShopifyResource
