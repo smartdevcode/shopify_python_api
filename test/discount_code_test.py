@@ -17,7 +17,7 @@ class DiscountCodeTest(TestCase):
         self.discount_code.code = 'BOGO'
         self.fake('price_rules/1213131/discount_codes/34',
                   method='PUT',
-                  code=200,
+                  status=200,
                   body=self.load_fixture('discount_code'),
                   headers={'Content-type': 'application/json'})
         self.discount_code.save()
