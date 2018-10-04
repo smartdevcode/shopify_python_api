@@ -55,7 +55,6 @@ from .draft_order_invoice import DraftOrderInvoice
 from .report import Report
 from .price_rule import PriceRule
 from .discount_code import DiscountCode
-from .discount_code_creation import DiscountCodeCreation
 from .marketing_event import MarketingEvent
 from .collection_listing import CollectionListing
 from .product_listing import ProductListing
@@ -64,5 +63,6 @@ from .storefront_access_token import StorefrontAccessToken
 from .inventory_item import InventoryItem
 from .inventory_level import InventoryLevel
 from .access_scope import AccessScope
+from .user import User
 
 from ..base import ShopifyResource
