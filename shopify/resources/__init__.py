@@ -21,6 +21,7 @@ from .recurring_application_charge import RecurringApplicationCharge
 from .usage_charge import UsageCharge
 from .asset import Asset
 from .theme import Theme
+from .currency import Currency
 from .customer_saved_search import CustomerSavedSearch
 from .customer_group import CustomerGroup
 from .customer_invite import CustomerInvite
@@ -40,7 +41,6 @@ from .fulfillment import Fulfillment
 from .fulfillment_service import FulfillmentService
 from .carrier_service import CarrierService
 from .transaction import Transaction
-from .tender_transaction import TenderTransaction
 from .image import Image
 from .variant import Variant
 from .order import Order
