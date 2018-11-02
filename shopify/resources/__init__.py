@@ -41,6 +41,7 @@ from .fulfillment import Fulfillment
 from .fulfillment_service import FulfillmentService
 from .carrier_service import CarrierService
 from .transaction import Transaction
+from .tender_transaction import TenderTransaction
 from .image import Image
 from .variant import Variant
 from .order import Order
@@ -67,5 +68,8 @@ from .inventory_level import InventoryLevel
 from .access_scope import AccessScope
 from .user import User
 from .api_permission import ApiPermission
+from .publication import Publication
+from .collection_publication import CollectionPublication
+from .product_publication import ProductPublication
 
 from ..base import ShopifyResource
