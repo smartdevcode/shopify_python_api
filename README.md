@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Shopify/shopify_python_api.svg?branch=master)](https://travis-ci.org/Shopify/shopify_python_api)
-[![PyPI version](https://badge.fury.io/py/shopifyapi.svg)](https://badge.fury.io/py/shopifyapi)
+[![PyPI version](https://badge.fury.io/py/ShopifyAPI.svg)](https://badge.fury.io/py/ShopifyAPI)
 
 # Shopify API
 
@@ -80,10 +80,13 @@ these steps:
 
     with the following parameters:
 
-   * ``client_id``– Required – The API key for your app
-   * ``scope`` – Required – The list of required scopes (explained here: http://docs.shopify.com/api/tutorials/oauth)
-   * ``redirect_uri`` – Required – The URL where you want to redirect the users after they authorize the client. The complete URL specified here must be identical to one of the Application Redirect URLs set in the App's section of the Partners dashboard. Note: in older applications, this parameter was optional, and redirected to the Application Callback URL when no other value was specified.
-   * ``state`` – Optional – A randomly selected value provided by your application, which is unique for each authorization request. During the OAuth callback phase, your application must check that this value matches the one you provided during authorization. [This mechanism is important for the security of your application](https://tools.ietf.org/html/rfc6819#section-3.6).
+* ``client_id``– Required – The API key for your app
+
+* ``scope`` – Required – The list of required scopes (explained here: http://docs.shopify.com/api/tutorials/oauth)
+
+* ``redirect_uri`` – Required – The URL where you want to redirect the users after they authorize the client. The complete URL specified here must be identical to one of the Application Redirect URLs set in the App's section of the Partners dashboard. Note: in older applications, this parameter was optional, and redirected to the Application Callback URL when no other value was specified.
+
+* ``state`` – Optional – A randomly selected value provided by your application, which is unique for each authorization request. During the OAuth callback phase, your application must check that this value matches the one you provided during authorization. [This mechanism is important for the security of your application](https://tools.ietf.org/html/rfc6819#section-3.6).
 
     We've added the create_permision_url method to make this easier, first
     instantiate your session object:
@@ -193,6 +196,43 @@ these steps:
      shopify.ShopifyResource.clear_session()
      ```
 
+### Advanced Usage
+It is recommended to have at least a basic grasp on the principles of [ActiveResource](https://apidock.com/rails/ActiveResource/Base). The [pyactiveresource](https://github.com/Shopify/pyactiveresource) library, which this package relies heavily upon is a port of rails/ActiveResource to Python.
+
+Instances of `pyactiveresource` resources map to RESTful resources in the Shopify API.
+
+`pyactiveresource` exposes life cycle methods for creating, finding, updating, and deleting resources which are equivalent to the `POST`, `GET`, `PUT`, and `DELETE` HTTP verbs.
+
+```python
+product = shopify.Product()
+product.title = "Shopify Logo T-Shirt"
+product.id                          # => 292082188312
+product.save()                      # => True
+
+shopify.Product.exists(product.id)  # => True
+
+product = shopify.Product.find(292082188312)
+# Resource holding our newly created Product object
+# Inspect attributes with product.attributes
+
+product.price = 19.99
+product.save()                      # => True
+product.destroy()
+# Delete the resource from the remote server (i.e. Shopify)
+```
+
+The [tests for this package](https://github.com/Shopify/shopify_python_api/tree/master/test) also serve to provide advanced examples of usage.
+
+### Prefix options
+
+Some resources such as `Fulfillment` are prefixed by a parent resource in the Shopify API.
+
+e.g. `orders/450789469/fulfillments/255858046`
+
+In order to interact with these resources, you must specify the identifier of the parent resource in your request.
+
+e.g. `shopify.Fulfillment.find(255858046, order_id=450789469)`
+
 ### Console
 
 This package also includes the `shopify_api.py` script to make it easy to
@@ -251,6 +291,7 @@ version won't be used.
 To run tests, simply open up the project directory in a terminal and run:
 
 ```shell
+pip install setuptools --upgrade`
 python setup.py test
 ```
 
