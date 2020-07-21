@@ -12,7 +12,3 @@ class Fulfillment(ShopifyResource):
 
     def open(self):
         self._load_attributes_from_response(self.post("open"))
-
-
-class FulfillmentOrders(ShopifyResource):
-    _prefix_source = "/orders/$order_id/"
