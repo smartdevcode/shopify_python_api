@@ -1,6 +1,6 @@
 # Shopify API
 
-[![Build Status](https://github.com/Shopify/shopify_python_api/workflows/CI/badge.svg)](https://github.com/Shopify/shopify_python_api/actions)
+[![Build Status](https://travis-ci.org/Shopify/shopify_python_api.svg?branch=master)](https://travis-ci.org/Shopify/shopify_python_api)
 [![PyPI version](https://badge.fury.io/py/ShopifyAPI.svg)](https://badge.fury.io/py/ShopifyAPI)
 
 The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
@@ -9,9 +9,6 @@ The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
 
 ### Requirements
 You should be signed up as a partner on the [Shopify Partners Dashboard](https://partners.shopify.com) so that you can create and manage shopify applications.
-
-#### Python version
-This library requires Python 3.8 or lower.
 
 ### Installation
 
