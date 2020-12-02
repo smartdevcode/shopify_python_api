@@ -1,6 +1,6 @@
 # Shopify API
 
-[![Build Status](https://travis-ci.org/Shopify/shopify_python_api.svg?branch=master)](https://travis-ci.org/Shopify/shopify_python_api)
+[![Build Status](https://github.com/Shopify/shopify_python_api/workflows/CI/badge.svg)](https://github.com/Shopify/shopify_python_api/actions)
 [![PyPI version](https://badge.fury.io/py/ShopifyAPI.svg)](https://badge.fury.io/py/ShopifyAPI)
 
 The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
@@ -8,7 +8,10 @@ The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
 ## Usage
 
 ### Requirements
-You should be signed up as a partner on the [Shopify Partners Dashboard](https://partners.shopify.com) so that you can create and manage shopify applications.
+You should be signed up as a partner on the [Shopify Partners Dashboard](https://www.shopify.com/partners) so that you can create and manage shopify applications.
+
+#### Python version
+This library requires Python 3.8 or lower.
 
 ### Installation
 
@@ -21,7 +24,7 @@ pip install --upgrade ShopifyAPI
 ### Getting Started
 #### Public and Custom Apps
 
-1. First create a new application in the [Partners Dashboard](https://partners.shopify.com/apps/new), and retreive your API Key and API Secret Key.
+1. First create a new application in the [Partners Dashboard](https://www.shopify.com/partners), and retrieve your API Key and API Secret Key.
 1. We then need to supply these keys to the Shopify Session Class so that it knows how to authenticate.
 
    ```python
