@@ -8,7 +8,7 @@ The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
 ## Usage
 
 ### Requirements
-You should be signed up as a partner on the [Shopify Partners Dashboard](https://www.shopify.com/partners) so that you can create and manage shopify applications.
+You should be signed up as a partner on the [Shopify Partners Dashboard](https://partners.shopify.com) so that you can create and manage shopify applications.
 
 #### Python version
 This library requires Python 3.8 or lower.
@@ -24,7 +24,7 @@ pip install --upgrade ShopifyAPI
 ### Getting Started
 #### Public and Custom Apps
 
-1. First create a new application in the [Partners Dashboard](https://www.shopify.com/partners), and retrieve your API Key and API Secret Key.
+1. First create a new application in the [Partners Dashboard](https://partners.shopify.com/apps/new), and retreive your API Key and API Secret Key.
 1. We then need to supply these keys to the Shopify Session Class so that it knows how to authenticate.
 
    ```python
@@ -114,7 +114,7 @@ _Note: Your application must be public to test the billing process. To test on a
     charge = shopify.ApplicationCharge.find(charge_id)
     shopify.ApplicationCharge.activate(charge)
     ```
-1.  Check that `activated_charge` status is `active`
+1.  Check that `activated_charge` status is `active` (This action is no longer necessary if the charge is created with [API version 2021-01 or later](https://shopify.dev/changelog/auto-activation-of-charges-and-subscriptions))
     ```python
     activated_charge = shopify.ApplicationCharge.find(charge_id)
     has_been_billed = activated_charge.status == 'active'
