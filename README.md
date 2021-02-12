@@ -12,9 +12,6 @@ The [Shopify Admin API](https://shopify.dev/docs/admin-api) Python Library
 ### Requirements
 You should be signed up as a partner on the [Shopify Partners Dashboard](https://www.shopify.com/partners) so that you can create and manage shopify applications.
 
-#### Python version
-This library requires Python 3.8 or lower.
-
 ### Installation
 
 To easily install or upgrade to the latest release, use [pip](http://www.pip-installer.org/).
@@ -197,6 +194,13 @@ if page1.has_next_page():
 # to persist across requests you can use next_page_url and previous_page_url
 next_url = page1.next_page_url
 page2 = shopify.Product.find(from_=next_url)
+```
+
+## Development on this repo
+Install requirements and initialize [pre-commit](https://pre-commit.com/)
+```shell
+pip install -r requirements.txt
+pre-commit install
 ```
 
 ## Limitations
