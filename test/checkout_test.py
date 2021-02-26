@@ -3,6 +3,7 @@ from test.test_helper import TestCase
 
 
 class CheckoutTest(TestCase):
+
     def test_all_should_return_all_checkouts(self):
         self.fake('checkouts')
         checkouts = shopify.Checkout.find()

@@ -4,6 +4,7 @@ from test.test_helper import TestCase
 
 
 class PaginationTest(TestCase):
+
     def setUp(self):
         super(PaginationTest, self).setUp()
         prefix = self.http.site + "/admin/api/unstable"
@@ -15,33 +16,26 @@ class PaginationTest(TestCase):
         next_headers = {"Link": "<" + self.next_page_url + ">; rel=\"next\""}
         prev_headers = {"Link": "<" + self.prev_page_url + ">; rel=\"previous\""}
 
-        self.fake(
-            "products",
-            url=prefix + "/products.json?limit=2",
-            body=json.dumps({"products": fixture[:2]}),
-            response_headers=next_headers,
-        )
-        self.fake(
-            "products",
-            url=prefix + "/products.json?limit=2&page_info=FOOBAR",
-            body=json.dumps({"products": fixture[2:4]}),
-            response_headers=prev_headers,
-        )
-        self.fake(
-            "products",
-            url=prefix + "/products.json?limit=2&page_info=BAZQUUX",
-            body=json.dumps({"products": fixture[:2]}),
-            response_headers=next_headers,
-        )
+        self.fake("products",
+                  url=prefix + "/products.json?limit=2",
+                  body=json.dumps({"products": fixture[:2]}),
+                  response_headers=next_headers)
+        self.fake("products",
+                  url=prefix + "/products.json?limit=2&page_info=FOOBAR",
+                  body=json.dumps({"products": fixture[2:4]}),
+                  response_headers=prev_headers)
+        self.fake("products",
+                  url=prefix + "/products.json?limit=2&page_info=BAZQUUX",
+                  body=json.dumps({"products": fixture[:2]}),
+                  response_headers=next_headers)
 
     def test_nonpaginates_collection(self):
         self.fake('draft_orders', method='GET', code=200, body=self.load_fixture('draft_orders'))
         draft_orders = shopify.DraftOrder.find()
         self.assertEqual(1, len(draft_orders))
         self.assertEqual(517119332, draft_orders[0].id)
-        self.assertIsInstance(
-            draft_orders, shopify.collection.PaginatedCollection, "find() result is not PaginatedCollection"
-        )
+        self.assertIsInstance(draft_orders, shopify.collection.PaginatedCollection,
+                              "find() result is not PaginatedCollection")
 
     def test_paginated_collection(self):
         items = shopify.Product.find(limit=2)
@@ -53,12 +47,12 @@ class PaginationTest(TestCase):
         self.assertEqual(c.next_page_url, self.next_page_url, "next url is incorrect")
         n = c.next_page()
         self.assertEqual(n.previous_page_url, self.prev_page_url, "prev url is incorrect")
-        self.assertIsInstance(
-            n, shopify.collection.PaginatedCollection, "next_page() result is not PaginatedCollection"
-        )
+        self.assertIsInstance(n, shopify.collection.PaginatedCollection,
+                              "next_page() result is not PaginatedCollection")
         self.assertEqual(len(n), 2, "next_page() collection has incorrect length")
         self.assertIn("pagination", n.metadata)
-        self.assertIn("previous", n.metadata["pagination"], "next_page() collection doesn't have a previous page")
+        self.assertIn("previous", n.metadata["pagination"],
+                      "next_page() collection doesn't have a previous page")
 
         with self.assertRaises(IndexError, msg="next_page() did not raise with no next page"):
             n.next_page()
@@ -73,12 +67,13 @@ class PaginationTest(TestCase):
 
         p = n.previous_page()
 
-        self.assertIsInstance(
-            p, shopify.collection.PaginatedCollection, "previous_page() result is not PaginatedCollection"
-        )
-        self.assertEqual(len(p), 4, "previous_page() collection has incorrect length")  # cached
+        self.assertIsInstance(p, shopify.collection.PaginatedCollection,
+                              "previous_page() result is not PaginatedCollection")
+        self.assertEqual(len(p), 4,  # cached
+                         "previous_page() collection has incorrect length")
         self.assertIn("pagination", p.metadata)
-        self.assertIn("next", p.metadata["pagination"], "previous_page() collection doesn't have a next page")
+        self.assertIn("next", p.metadata["pagination"],
+                      "previous_page() collection doesn't have a next page")
 
         with self.assertRaises(IndexError, msg="previous_page() did not raise with no previous page"):
             p.previous_page()

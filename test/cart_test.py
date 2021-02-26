@@ -3,6 +3,7 @@ from test.test_helper import TestCase
 
 
 class CartTest(TestCase):
+
     def test_all_should_return_all_carts(self):
         self.fake('carts')
         carts = shopify.Cart.find()

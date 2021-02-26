@@ -2,7 +2,6 @@ import time
 import hmac
 import json
 from hashlib import sha256
-
 try:
     import simplejson as json
 except ImportError:
@@ -34,7 +33,6 @@ class Session(object):
     @contextmanager
     def temp(cls, domain, version, token):
         import shopify
-
         original_domain = shopify.ShopifyResource.url
         original_token = shopify.ShopifyResource.get_headers().get('X-Shopify-Access-Token')
         original_version = shopify.ShopifyResource.get_version() or version
@@ -147,7 +145,6 @@ class Session(object):
         """
         Sort and combine query parameters into a single string, excluding those that should be removed and joining with '&'
         """
-
         def encoded_pairs(params):
             for k, v in six.iteritems(params):
                 if k == 'hmac':
