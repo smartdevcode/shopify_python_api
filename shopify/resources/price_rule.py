@@ -13,11 +13,12 @@ class PriceRule(ShopifyResource):
         return DiscountCode.find(price_rule_id=self.id)
 
     def create_batch(self, codes=[]):
-        codes_json = json.dumps({'discount_codes': codes})
+        codes_json = json.dumps({"discount_codes": codes})
 
         response = self.post("batch", codes_json.encode())
         return DiscountCodeCreation(PriceRule.format.decode(response.body))
 
     def find_batch(self, batch_id):
-        return DiscountCodeCreation.find_one("%s/price_rules/%s/batch/%s.%s" % (
-            ShopifyResource.site, self.id, batch_id, PriceRule.format.extension))
+        return DiscountCodeCreation.find_one(
+            "%s/price_rules/%s/batch/%s.%s" % (ShopifyResource.site, self.id, batch_id, PriceRule.format.extension)
+        )

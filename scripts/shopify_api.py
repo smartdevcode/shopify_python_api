@@ -16,8 +16,9 @@ from six.moves import input, map
 def start_interpreter(**variables):
     # add the current working directory to the sys paths
     sys.path.append(os.getcwd())
-    console = type('shopify ' + shopify.version.VERSION, (code.InteractiveConsole, object), {})
+    console = type("shopify " + shopify.version.VERSION, (code.InteractiveConsole, object), {})
     import readline
+
     console(variables).interact()
 
 
@@ -27,9 +28,11 @@ class ConfigFileError(Exception):
 
 def usage(usage_string):
     """Decorator to add a usage string to a function"""
+
     def decorate(func):
         func.usage = usage_string
         return func
+
     return decorate
 
 
@@ -44,13 +47,14 @@ class TasksMeta(type):
 
         def filter_func(item):
             return not item.startswith("_") and hasattr(getattr(cls, item), "__call__")
+
         tasks = filter(filter_func, tasks)
         cls._tasks = sorted(tasks)
 
         return cls
 
     def run_task(cls, task=None, *args):
-        if task in [None, '-h', '--help']:
+        if task in [None, "-h", "--help"]:
             cls.help()
             return
 
@@ -84,7 +88,7 @@ class TasksMeta(type):
                 if desc:
                     line = "%s%s  # %s" % (line, " " * (max_len - len(line)), desc)
                 if len(line) > cols:
-                    line = line[:cols - 3] + "..."
+                    line = line[: cols - 3] + "..."
                 print(line)
         else:
             task_func = getattr(cls, task)
@@ -116,22 +120,22 @@ class Tasks(object):
         if os.path.exists(filename):
             raise ConfigFileError("There is already a config file at " + filename)
         else:
-            config = dict(protocol='https')
+            config = dict(protocol="https")
             domain = input("Domain? (leave blank for %s.myshopify.com) " % (connection))
             if not domain.strip():
                 domain = "%s.myshopify.com" % (connection)
-            config['domain'] = domain
+            config["domain"] = domain
             print("")
             print("open https://%s/admin/apps/private in your browser to generate API credentials" % (domain))
-            config['api_key'] = input("API key? ")
-            config['password'] = input("Password? ")
-            config['api_version'] = input("API version? (leave blank for %s) " % (cls._default_api_version))
-            if not config['api_version'].strip():
-                config['api_version'] = cls._default_api_version
+            config["api_key"] = input("API key? ")
+            config["password"] = input("Password? ")
+            config["api_version"] = input("API version? (leave blank for %s) " % (cls._default_api_version))
+            if not config["api_version"].strip():
+                config["api_version"] = cls._default_api_version
 
             if not os.path.isdir(cls._shop_config_dir):
                 os.makedirs(cls._shop_config_dir)
-            with open(filename, 'w') as f:
+            with open(filename, "w") as f:
                 f.write(yaml.dump(config, default_flow_style=False, explicit_start="---"))
         if len(list(cls._available_connections())) == 1:
             cls.default(connection)
@@ -217,8 +221,10 @@ class Tasks(object):
 
     @classmethod
     def _available_connections(cls):
-        return map(lambda item: os.path.splitext(os.path.basename(item))[0],
-              glob.glob(os.path.join(cls._shop_config_dir, "*.yml")))
+        return map(
+            lambda item: os.path.splitext(os.path.basename(item))[0],
+            glob.glob(os.path.join(cls._shop_config_dir, "*.yml")),
+        )
 
     @classmethod
     def _default_connection_target(cls):
